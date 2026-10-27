@@ -1,0 +1,39 @@
+# Requisições de exemplo (extensão "REST Client" do VS Code ou copie para o Insomnia/Postman)
+@api = http://localhost:3333/api
+
+### Health check
+GET {{api}}/health
+
+### Listar laboratórios
+GET {{api}}/laboratorios
+
+### Buscar laboratórios por nome
+GET {{api}}/laboratorios?busca=info
+
+### Criar laboratório
+POST {{api}}/laboratorios
+Content-Type: application/json
+
+{
+  "nome": "Laboratório de Informática 1",
+  "bloco": "Bloco III",
+  "capacidade": 30,
+  "descricao": "30 computadores com Linux e Windows",
+  "recursos": ["Projetor", "Ar-condicionado", "Quadro branco"],
+  "horaAbertura": 8,
+  "horaFechamento": 22
+}
+
+### Buscar por id (troque pelo _id retornado)
+GET {{api}}/laboratorios/COLOQUE_O_ID_AQUI
+
+### Atualizar
+PUT {{api}}/laboratorios/COLOQUE_O_ID_AQUI
+Content-Type: application/json
+
+{
+  "capacidade": 35
+}
+
+### Remover
+DELETE {{api}}/laboratorios/COLOQUE_O_ID_AQUI
