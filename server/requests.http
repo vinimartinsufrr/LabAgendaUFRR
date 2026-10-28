@@ -1,39 +1,144 @@
 # Requisições de exemplo (extensão "REST Client" do VS Code ou copie para o Insomnia/Postman)
+# Rode "npm run seed" antes para ter o admin e alguns laboratórios.
 @api = http://localhost:3333/api
+# Cole aqui os tokens retornados no login
+@tokenAdmin = COLE_O_TOKEN_DO_ADMIN
+@tokenUsuario = COLE_O_TOKEN_DO_USUARIO
 
 ### Health check
 GET {{api}}/health
 
-### Listar laboratórios
+### ---------------- AUTENTICAÇÃO ----------------
+
+### Cadastro (sempre cria usuário comum)
+POST {{api}}/auth/registro
+Content-Type: application/json
+
+{
+  "nome": "Maria Souza",
+  "email": "maria@ufrr.br",
+  "senha": "123456",
+  "matricula": "2023012345"
+}
+
+### Login do admin
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@ufrr.br",
+  "senha": "admin123"
+}
+
+### Login do usuário comum
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "usuario@ufrr.br",
+  "senha": "usuario123"
+}
+
+### Login com senha errada (401)
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@ufrr.br",
+  "senha": "errada"
+}
+
+### Quem sou eu
+GET {{api}}/auth/me
+Authorization: Bearer {{tokenUsuario}}
+
+### ---------------- LABORATÓRIOS ----------------
+
+### Listar (qualquer usuário logado)
 GET {{api}}/laboratorios
+Authorization: Bearer {{tokenUsuario}}
 
-### Buscar laboratórios por nome
-GET {{api}}/laboratorios?busca=info
-
-### Criar laboratório
+### Criar (admin)
 POST {{api}}/laboratorios
+Authorization: Bearer {{tokenAdmin}}
 Content-Type: application/json
 
 {
-  "nome": "Laboratório de Informática 1",
+  "nome": "Laboratório de Robótica",
   "bloco": "Bloco III",
-  "capacidade": 30,
-  "descricao": "30 computadores com Linux e Windows",
-  "recursos": ["Projetor", "Ar-condicionado", "Quadro branco"],
+  "capacidade": 15,
+  "recursos": ["Arduino", "Impressora 3D"],
   "horaAbertura": 8,
-  "horaFechamento": 22
+  "horaFechamento": 18
 }
 
-### Buscar por id (troque pelo _id retornado)
-GET {{api}}/laboratorios/COLOQUE_O_ID_AQUI
-
-### Atualizar
-PUT {{api}}/laboratorios/COLOQUE_O_ID_AQUI
+### Criar com usuário comum (403)
+POST {{api}}/laboratorios
+Authorization: Bearer {{tokenUsuario}}
 Content-Type: application/json
 
 {
-  "capacidade": 35
+  "nome": "Não deve criar",
+  "bloco": "X",
+  "capacidade": 10
 }
 
-### Remover
-DELETE {{api}}/laboratorios/COLOQUE_O_ID_AQUI
+### Criar com dados inválidos (400 com detalhes)
+POST {{api}}/laboratorios
+Authorization: Bearer {{tokenAdmin}}
+Content-Type: application/json
+
+{
+  "nome": "A",
+  "capacidade": -5
+}
+
+### ---------------- AGENDAMENTOS ----------------
+
+### Disponibilidade de um laboratório em um dia
+GET {{api}}/agendamentos/disponibilidade?laboratorio=ID_DO_LAB&data=2026-12-01
+Authorization: Bearer {{tokenUsuario}}
+
+### Criar agendamento
+POST {{api}}/agendamentos
+Authorization: Bearer {{tokenUsuario}}
+Content-Type: application/json
+
+{
+  "laboratorio": "ID_DO_LAB",
+  "data": "2026-12-01",
+  "horaInicio": 10,
+  "horaFim": 12,
+  "motivo": "Aula prática de Arquitetura Web"
+}
+
+### Meus agendamentos (admin recebe todos)
+GET {{api}}/agendamentos?periodo=futuros
+Authorization: Bearer {{tokenUsuario}}
+
+### Cancelar
+PATCH {{api}}/agendamentos/ID_DO_AGENDAMENTO/cancelar
+Authorization: Bearer {{tokenUsuario}}
+
+### Excluir (admin)
+DELETE {{api}}/agendamentos/ID_DO_AGENDAMENTO
+Authorization: Bearer {{tokenAdmin}}
+
+### ---------------- USUÁRIOS (admin) ----------------
+
+### Listar usuários
+GET {{api}}/usuarios
+Authorization: Bearer {{tokenAdmin}}
+
+### Promover usuário a admin
+PUT {{api}}/usuarios/ID_DO_USUARIO
+Authorization: Bearer {{tokenAdmin}}
+Content-Type: application/json
+
+{
+  "papel": "admin"
+}
+
+### ---------------- DASHBOARD (admin) ----------------
+GET {{api}}/dashboard
+Authorization: Bearer {{tokenAdmin}}

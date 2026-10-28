@@ -1,4 +1,5 @@
 const Laboratorio = require('../models/Laboratorio');
+const Agendamento = require('../models/Agendamento');
 const AppError = require('../utils/AppError');
 const asyncHandler = require('../utils/asyncHandler');
 
@@ -46,6 +47,9 @@ const atualizar = asyncHandler(async (req, res) => {
 const remover = asyncHandler(async (req, res) => {
   const laboratorio = await Laboratorio.findByIdAndDelete(req.params.id);
   if (!laboratorio) throw new AppError('Laboratório não encontrado', 404);
+
+  // Remove os agendamentos do laboratório para não deixar referências órfãs
+  await Agendamento.deleteMany({ laboratorio: laboratorio._id });
   res.status(204).send();
 });
 

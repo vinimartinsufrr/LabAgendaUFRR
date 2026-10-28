@@ -1,0 +1,21 @@
+// Mensagens do Joi traduzidas para português
+module.exports = {
+  'any.required': '{{#label}} é obrigatório',
+  'any.only': '{{#label}} deve ser um dos valores: {{#valids}}',
+  'string.base': '{{#label}} deve ser um texto',
+  'string.empty': '{{#label}} não pode ficar vazio',
+  'string.min': '{{#label}} deve ter pelo menos {{#limit}} caracteres',
+  'string.max': '{{#label}} deve ter no máximo {{#limit}} caracteres',
+  'string.email': '{{#label}} deve ser um e-mail válido',
+  'string.pattern.base': '{{#label}} está em um formato inválido',
+  'string.hex': '{{#label}} deve ser um id válido',
+  'string.length': '{{#label}} deve ter {{#limit}} caracteres',
+  'number.base': '{{#label}} deve ser um número',
+  'number.integer': '{{#label}} deve ser um número inteiro',
+  'number.min': '{{#label}} deve ser no mínimo {{#limit}}',
+  'number.max': '{{#label}} deve ser no máximo {{#limit}}',
+  'number.greater': '{{#label}} deve ser maior que {{#limit}}',
+  'boolean.base': '{{#label}} deve ser verdadeiro ou falso',
+  'array.base': '{{#label}} deve ser uma lista',
+  'object.min': 'Informe pelo menos um campo para atualizar',
+};
