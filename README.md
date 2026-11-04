@@ -4,12 +4,22 @@ Sistema Full Stack de agendamento de laboratórios da UFRR — Projeto Final de 
 
 **Dupla:** Vinicius Martins (2023001156) e Jasmim Sabini (2023010360)
 
-> **Versão 2 — Autenticação, níveis de acesso e agendamentos.** A API está completa; o frontend vem na v3.
+> **Versão 3 — Frontend base.** API completa + SPA em React com login, cadastro, rotas protegidas e listagem de laboratórios.
 
 ## Estrutura
 
 ```
-server/
+client/                  frontend (React + Vite)
+  src/
+    services/api.js      instância do axios (URL da API + token JWT)
+    contexts/            AuthContext: usuário logado e nível de acesso
+    components/          Navbar, Layout, RotaPrivada, RotaPublica, Spinner, Alerta, Campo
+    pages/               Login, Registro, Inicio, Laboratorios, AcessoNegado, NaoEncontrado
+    utils/erros.js       converte erros da API em mensagens para a tela
+    styles/global.css    estilos (Flexbox/Grid, responsivo)
+    App.jsx              rotas (react-router-dom)
+
+server/                  backend (Node + Express + MongoDB)
   src/
     config/        conexão com o MongoDB
     models/        Usuario, Laboratorio, Agendamento (Mongoose)
@@ -27,13 +37,32 @@ server/
 
 Pré-requisitos: Node.js 18+ e um MongoDB (local ou [MongoDB Atlas](https://www.mongodb.com/atlas)).
 
+Abra dois terminais.
+
+**Terminal 1 — API**
+
 ```bash
 cd server
 npm install
 cp .env.example .env   # ajuste MONGO_URI e JWT_SECRET
 npm run seed           # cria admin@ufrr.br / admin123 e usuario@ufrr.br / usuario123
-npm run dev
+npm run dev            # http://localhost:3333
 ```
+
+**Terminal 2 — Frontend**
+
+```bash
+cd client
+npm install
+cp .env.example .env   # opcional: só se a API não estiver em localhost:3333
+npm run dev            # http://localhost:5173
+```
+
+### Variáveis de ambiente (`client/.env`)
+
+| Variável       | Exemplo                       | Descrição         |
+|----------------|-------------------------------|-------------------|
+| `VITE_API_URL` | `http://localhost:3333/api`   | Endereço da API   |
 
 ### Variáveis de ambiente (`server/.env`)
 
