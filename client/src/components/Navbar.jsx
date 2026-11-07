@@ -5,6 +5,9 @@ import { useAuth } from '../contexts/AuthContext';
 const links = [
   { para: '/', texto: 'Início', fim: true },
   { para: '/laboratorios', texto: 'Laboratórios' },
+  { para: '/agendar', texto: 'Agendar' },
+  { para: '/meus-agendamentos', texto: 'Meus agendamentos' },
+  { para: '/admin', texto: 'Painel', admin: true },
 ];
 
 export default function Navbar() {
@@ -40,17 +43,20 @@ export default function Navbar() {
         </button>
 
         <nav className={`navbar__menu ${menuAberto ? 'navbar__menu--aberto' : ''}`}>
-          {links.map((link) => (
-            <NavLink key={link.para} to={link.para} end={link.fim} onClick={fecharMenu}>
-              {link.texto}
-            </NavLink>
-          ))}
+          {/* O link do painel só aparece para administradores */}
+          {links
+            .filter((link) => !link.admin || ehAdmin)
+            .map((link) => (
+              <NavLink key={link.para} to={link.para} end={link.fim} onClick={fecharMenu}>
+                {link.texto}
+              </NavLink>
+            ))}
 
           <div className="navbar__usuario">
-            <span className="navbar__nome">
+            <Link to="/perfil" className="navbar__nome" onClick={fecharMenu} title="Meu perfil">
               {usuario.nome.split(' ')[0]}
               <span className={`selo ${ehAdmin ? 'selo--admin' : ''}`}>{usuario.papel}</span>
-            </span>
+            </Link>
             <button type="button" className="botao botao--contorno botao--pequeno" onClick={sair}>
               Sair
             </button>

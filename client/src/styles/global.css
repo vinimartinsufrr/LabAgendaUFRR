@@ -521,11 +521,8 @@ a {
 }
 
 /* ============ Responsividade ============ */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 1.45rem;
-  }
-
+/* Com mais links no menu, o hambúrguer entra já em telas médias */
+@media (max-width: 960px) {
   .navbar__hamburguer {
     display: flex;
   }
@@ -553,6 +550,12 @@ a {
     border-left: 0;
     border-top: 1px solid var(--cor-borda);
     justify-content: space-between;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.45rem;
   }
 
   .auth {

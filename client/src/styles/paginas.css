@@ -1,0 +1,609 @@
+/* =====================================================================
+   Estilos das telas de laboratórios, agendamento e painel administrativo
+   (as variáveis e componentes base ficam em global.css)
+   ===================================================================== */
+
+.navbar__menu a.navbar__nome {
+  padding: 0;
+  color: var(--cor-texto);
+  background: none;
+}
+
+.link-voltar {
+  display: inline-block;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.rotulo {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.botao--texto-perigo {
+  color: var(--cor-perigo);
+  border-color: #f1aeb5;
+}
+.botao--texto-perigo:hover:not(:disabled) {
+  background: var(--cor-perigo-clara);
+}
+
+/* ---------- Filtros ---------- */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.filtros input,
+.filtros select {
+  flex: 1 1 200px;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  font: inherit;
+  background: var(--cor-superficie);
+}
+
+/* ---------- Cartões de laboratório ---------- */
+.cartao--lab {
+  display: flex;
+  flex-direction: column;
+}
+.cartao--inativo {
+  opacity: 0.7;
+}
+.cartao__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+.cartao--destaque {
+  border-color: #f3d19c;
+  background: #fffaf0;
+}
+
+/* ---------- Formulários de página ---------- */
+.formulario {
+  max-width: 720px;
+}
+.formulario__acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.formulario__secao {
+  margin: 0.5rem 0 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--cor-borda);
+}
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+.checkbox input {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---------- Modal ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.45);
+  animation: aparecer 0.15s ease-out;
+}
+.modal__caixa {
+  width: min(100%, 520px);
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  background: var(--cor-superficie);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra-forte);
+}
+.modal__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--cor-borda);
+}
+.modal__cabecalho h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.modal__corpo {
+  padding: 1.25rem;
+}
+.modal__rodape {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--cor-borda);
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ---------- Agendar ---------- */
+.agendar {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+.agendar__coluna {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.resumo-agendamento {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background: var(--cor-primaria-clara);
+  color: var(--cor-primaria-escura);
+}
+
+/* Calendário */
+.calendario__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.calendario__nav {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  background: var(--cor-superficie);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.calendario__nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.calendario__grade {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.calendario__semana {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+  padding: 0.25rem 0;
+}
+.calendario__dia {
+  aspect-ratio: 1;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--cor-fundo);
+  font: inherit;
+  cursor: pointer;
+}
+.calendario__dia:hover:not(:disabled) {
+  border-color: var(--cor-primaria);
+}
+.calendario__dia:disabled {
+  background: none;
+  color: #b8c0c9;
+  cursor: not-allowed;
+}
+.calendario__dia--hoje {
+  font-weight: 700;
+  border-color: var(--cor-borda);
+}
+.calendario__dia--selecionado,
+.calendario__dia--selecionado:hover:not(:disabled) {
+  background: var(--cor-primaria);
+  border-color: var(--cor-primaria);
+  color: #fff;
+}
+
+/* Grade de horários */
+.horarios {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: 0.5rem;
+}
+.horario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.55rem 0.25rem;
+  border: 1px solid #b7dfc8;
+  border-radius: 8px;
+  background: var(--cor-sucesso-clara);
+  color: #0f5132;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.horario small {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.horario:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: var(--cor-sucesso);
+}
+.horario--selecionado {
+  background: var(--cor-primaria);
+  border-color: var(--cor-primaria);
+  color: #fff;
+}
+.horario--selecionado:hover:not(:disabled) {
+  border-color: var(--cor-primaria-escura);
+}
+.horario--ocupado {
+  background: var(--cor-perigo-clara);
+  border-color: #f1aeb5;
+  color: #842029;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+.horario--meu {
+  background: #fff4e0;
+  border-color: #f3d19c;
+  color: var(--cor-aviso);
+  cursor: not-allowed;
+}
+.horario--passado {
+  background: #f1f3f5;
+  border-color: var(--cor-borda);
+  color: #9aa5b1;
+  cursor: not-allowed;
+}
+
+.legenda-horarios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+.legenda-horarios li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.horario-cor {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: 1px solid;
+}
+.horario-cor--livre { background: var(--cor-sucesso-clara); border-color: #b7dfc8; }
+.horario-cor--selecionado { background: var(--cor-primaria); border-color: var(--cor-primaria); }
+.horario-cor--ocupado { background: var(--cor-perigo-clara); border-color: #f1aeb5; }
+.horario-cor--meu { background: #fff4e0; border-color: #f3d19c; }
+
+/* ---------- Abas ---------- */
+.abas {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--cor-borda);
+  margin-bottom: 1.25rem;
+  overflow-x: auto;
+}
+.aba {
+  padding: 0.6rem 1rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.aba:hover {
+  color: var(--cor-texto);
+}
+.aba--ativa,
+.abas--links .aba.active {
+  color: var(--cor-primaria);
+  border-bottom-color: var(--cor-primaria);
+}
+
+/* ---------- Lista de agendamentos ---------- */
+.lista-agendamentos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.agendamento {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+}
+.agendamento__data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  background: var(--cor-primaria-clara);
+  color: var(--cor-primaria-escura);
+}
+.agendamento__data strong {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.agendamento__data span {
+  font-size: 0.75rem;
+}
+.agendamento__titulo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.agendamento__titulo h3 {
+  margin: 0;
+}
+.agendamento__info p {
+  margin: 0.15rem 0 0;
+}
+.agendamento__motivo {
+  overflow-wrap: anywhere;
+}
+.agendamento__usuario {
+  font-size: 0.875rem;
+}
+.agendamento__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* ---------- Início ---------- */
+.grade-inicio {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+.atalhos {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.lista-simples {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+}
+.lista-simples li {
+  display: flex;
+  flex-direction: column;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--cor-borda);
+}
+
+/* ---------- Dashboard ---------- */
+.indicadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.indicador {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.indicador__titulo {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+}
+.indicador__valor {
+  font-size: 2rem;
+  line-height: 1.15;
+}
+
+.grade-dashboard {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.grafico {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+  height: 220px;
+  margin-top: 1rem;
+}
+.grafico__coluna {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 6px;
+  cursor: default;
+}
+.grafico__coluna:hover {
+  background: var(--cor-fundo);
+}
+.grafico__valor {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-texto);
+}
+.grafico__trilho {
+  flex: 1;
+  width: 100%;
+  max-width: 36px;
+  display: flex;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--cor-borda);
+}
+.grafico__barra {
+  width: 100%;
+  min-height: 2px;
+  border-radius: 4px 4px 0 0;
+  background: var(--cor-primaria);
+  transition: height 0.4s ease-out;
+}
+.grafico__rotulo {
+  font-size: 0.8rem;
+  color: var(--cor-texto-suave);
+}
+
+.ranking {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.ranking__texto {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+}
+.ranking__trilho {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--cor-fundo);
+}
+.ranking__barra {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--cor-primaria);
+}
+
+/* ---------- Tabela ---------- */
+.tabela-wrapper {
+  padding: 0;
+  overflow-x: auto;
+}
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+}
+.tabela th,
+.tabela td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--cor-borda);
+}
+.tabela th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--cor-texto-suave);
+  background: #f9fafb;
+}
+.tabela tr:last-child td {
+  border-bottom: 0;
+}
+.tabela select {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  font: inherit;
+  background: var(--cor-superficie);
+}
+.tabela__acoes {
+  text-align: right;
+}
+
+/* ---------- Responsividade ---------- */
+@media (max-width: 960px) {
+  .agendar,
+  .grade-inicio,
+  .grade-dashboard {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .agendamento {
+    grid-template-columns: auto 1fr;
+  }
+  .agendamento__acoes {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+
+  /* Tabela vira lista de cartões no celular */
+  .tabela thead {
+    display: none;
+  }
+  .tabela tr {
+    display: block;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--cor-borda);
+  }
+  .tabela td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.3rem 0;
+    border: 0;
+  }
+  .tabela td[data-rotulo]::before {
+    content: attr(data-rotulo);
+    font-weight: 600;
+    color: var(--cor-texto-suave);
+  }
+  .tabela__acoes {
+    justify-content: flex-end;
+  }
+
+  .formulario__acoes {
+    flex-direction: column-reverse;
+  }
+  .formulario__acoes .botao {
+    width: 100%;
+  }
+}

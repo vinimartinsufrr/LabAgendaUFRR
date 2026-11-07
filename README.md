@@ -4,7 +4,21 @@ Sistema Full Stack de agendamento de laboratórios da UFRR — Projeto Final de 
 
 **Dupla:** Vinicius Martins (2023001156) e Jasmim Sabini (2023010360)
 
-> **Versão 3 — Frontend base.** API completa + SPA em React com login, cadastro, rotas protegidas e listagem de laboratórios.
+> **Versão 4 — Funcionalidades do frontend.** Todas as telas: CRUD de laboratórios, agendamento com calendário visual e horários bloqueados, meus agendamentos, perfil e painel administrativo.
+
+## Funcionalidades
+
+| Tela                         | Usuário | Admin | O que faz                                                        |
+|------------------------------|:-------:|:-----:|------------------------------------------------------------------|
+| Login / Cadastro             | ✔       | ✔     | Autenticação com feedback de erro                                |
+| Início                       | ✔       | ✔     | Próximos agendamentos e atalhos                                  |
+| Laboratórios                 | ✔       | ✔     | Busca e filtro por bloco; admin cria, edita e exclui             |
+| Agendar                      | ✔       | ✔     | Calendário + grade de horários (ocupados ficam bloqueados)       |
+| Meus agendamentos            | ✔       | ✔     | Próximos e histórico; editar e cancelar                          |
+| Meu perfil                   | ✔       | ✔     | Editar dados e trocar senha                                      |
+| Painel → Dashboard           |         | ✔     | Indicadores, gráfico dos próximos 7 dias e ranking de laboratórios |
+| Painel → Agendamentos        |         | ✔     | Todos os agendamentos com filtros; cancelar e excluir            |
+| Painel → Usuários            |         | ✔     | Criar usuário, mudar nível de acesso, excluir                    |
 
 ## Estrutura
 
@@ -13,11 +27,16 @@ client/                  frontend (React + Vite)
   src/
     services/api.js      instância do axios (URL da API + token JWT)
     contexts/            AuthContext: usuário logado e nível de acesso
-    components/          Navbar, Layout, RotaPrivada, RotaPublica, Spinner, Alerta, Campo
-    pages/               Login, Registro, Inicio, Laboratorios, AcessoNegado, NaoEncontrado
-    utils/erros.js       converte erros da API em mensagens para a tela
-    styles/global.css    estilos (Flexbox/Grid, responsivo)
-    App.jsx              rotas (react-router-dom)
+    hooks/               useCarregar (requisições com loading/erro), useAcoesAgendamento
+    components/          Navbar, Layout, RotaPrivada, RotaPublica, Spinner, Alerta, Campo,
+                         Modal, ConfirmarDialogo, CalendarioMes, GradeHorarios,
+                         AgendamentoItem, StatusSelo
+    pages/               Login, Registro, Inicio, Laboratorios, LaboratorioForm, Agendar,
+                         MeusAgendamentos, Perfil, AcessoNegado, NaoEncontrado
+    pages/admin/         AdminLayout, Dashboard, AdminAgendamentos, AdminUsuarios
+    utils/               erros.js (mensagens da API), datas.js (formatação de datas)
+    styles/              global.css (base) e paginas.css (telas), Flexbox/Grid, responsivo
+    App.jsx              rotas (react-router-dom), incluindo rotas só de admin
 
 server/                  backend (Node + Express + MongoDB)
   src/
