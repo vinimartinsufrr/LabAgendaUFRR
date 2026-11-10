@@ -3,6 +3,7 @@ const Laboratorio = require('../models/Laboratorio');
 const AppError = require('../utils/AppError');
 const asyncHandler = require('../utils/asyncHandler');
 const { hoje, dataValida, jaPassou } = require('../utils/datas');
+const { notificarAgendamento } = require('../utils/notificar');
 
 const POPULAR = [
   { path: 'laboratorio', select: 'nome bloco' },
@@ -126,6 +127,7 @@ const criar = asyncHandler(async (req, res) => {
 
   const agendamento = await Agendamento.create({ ...req.body, usuario: req.usuario._id });
   await agendamento.populate(POPULAR);
+  notificarAgendamento(req, 'criado', agendamento);
   res.status(201).json(agendamento);
 });
 
@@ -144,9 +146,16 @@ const atualizar = asyncHandler(async (req, res) => {
   };
   await validarHorario(dados, agendamento._id);
 
+  const anterior = { laboratorio: String(agendamento.laboratorio), data: agendamento.data };
   agendamento.set({ ...dados, motivo: req.body.motivo ?? agendamento.motivo });
   await agendamento.save();
   await agendamento.populate(POPULAR);
+
+  // Se mudou de laboratório ou de dia, a grade antiga também precisa ser atualizada
+  if (anterior.laboratorio !== String(agendamento.laboratorio._id) || anterior.data !== agendamento.data) {
+    req.app.get('io')?.emit('agendamento:alterado', { tipo: 'atualizado', ...anterior });
+  }
+  notificarAgendamento(req, 'atualizado', agendamento);
   res.json(agendamento);
 });
 
@@ -160,13 +169,17 @@ const cancelar = asyncHandler(async (req, res) => {
   agendamento.status = 'cancelado';
   await agendamento.save();
   await agendamento.populate(POPULAR);
+  notificarAgendamento(req, 'cancelado', agendamento);
   res.json(agendamento);
 });
 
 // DELETE /api/agendamentos/:id  (somente admin)
 const remover = asyncHandler(async (req, res) => {
-  const agendamento = await Agendamento.findByIdAndDelete(req.params.id);
+  const agendamento = await Agendamento.findById(req.params.id).populate(POPULAR);
   if (!agendamento) throw new AppError('Agendamento não encontrado', 404);
+
+  await agendamento.deleteOne();
+  notificarAgendamento(req, 'excluido', agendamento);
   res.status(204).send();
 });
 
