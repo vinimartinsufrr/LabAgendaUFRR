@@ -5,11 +5,12 @@ const morgan = require('morgan');
 const rotas = require('./routes');
 const notFound = require('./middlewares/notFound');
 const errorHandler = require('./middlewares/errorHandler');
+const { origensPermitidas } = require('./config/cors');
 
 // O app é separado do server.js para poder ser importado em testes
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: origensPermitidas() }));
 app.use(express.json());
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
