@@ -1,0 +1,73 @@
+/* ============ Tempo real (Socket.io) ============ */
+
+/* Indicador de conexão na navbar */
+.ao-vivo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--cor-texto-suave);
+}
+.ao-vivo::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #9aa5b1;
+}
+.ao-vivo--on {
+  color: var(--cor-sucesso);
+}
+.ao-vivo--on::before {
+  background: var(--cor-sucesso);
+  animation: pulsar 1.6s ease-in-out infinite;
+}
+
+@keyframes pulsar {
+  50% {
+    box-shadow: 0 0 0 4px rgba(25, 135, 84, 0.2);
+  }
+}
+
+/* Notificações flutuantes */
+.toasts {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: min(380px, calc(100vw - 2rem));
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border-left: 4px solid var(--cor-primaria);
+  background: var(--cor-superficie);
+  box-shadow: var(--sombra-forte);
+  animation: deslizar 0.2s ease-out;
+}
+.toast--sucesso {
+  border-left-color: var(--cor-sucesso);
+}
+.toast--aviso {
+  border-left-color: var(--cor-aviso);
+}
+.toast--erro {
+  border-left-color: var(--cor-perigo);
+}
+
+@keyframes deslizar {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}

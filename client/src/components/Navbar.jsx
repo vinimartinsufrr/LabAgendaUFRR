@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useSocket } from '../contexts/SocketContext';
 
 const links = [
   { para: '/', texto: 'Início', fim: true },
@@ -12,6 +13,7 @@ const links = [
 
 export default function Navbar() {
   const { usuario, ehAdmin, logout } = useAuth();
+  const { conectado } = useSocket();
   const [menuAberto, setMenuAberto] = useState(false);
   const navigate = useNavigate();
 
@@ -53,6 +55,12 @@ export default function Navbar() {
             ))}
 
           <div className="navbar__usuario">
+            <span
+              className={`ao-vivo ${conectado ? 'ao-vivo--on' : ''}`}
+              title={conectado ? 'Atualizações em tempo real ativas' : 'Sem conexão em tempo real'}
+            >
+              {conectado ? 'ao vivo' : 'offline'}
+            </span>
             <Link to="/perfil" className="navbar__nome" onClick={fecharMenu} title="Meu perfil">
               {usuario.nome.split(' ')[0]}
               <span className={`selo ${ehAdmin ? 'selo--admin' : ''}`}>{usuario.papel}</span>
