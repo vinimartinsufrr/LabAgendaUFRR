@@ -6,6 +6,8 @@ Alunos, professores e técnicos reservam horários nos laboratórios sem conflit
 
 **Autores:** Vinicius Martins (2023001156) · Jasmim Sabini (2023010360)
 
+🌐 **Acesse online:** [labagendaufrr.vercel.app](https://labagendaufrr.vercel.app) · API: [labagenda-api.onrender.com/api/health](https://labagenda-api.onrender.com/api/health)
+
 ![Tela de agendamento](docs/screenshots/agendar.png)
 
 ---
@@ -285,9 +287,22 @@ Exemplos prontos de requisições em [`server/requests.http`](server/requests.ht
 
 ## ☁️ Deploy
 
-1. **Banco — MongoDB Atlas:** crie um cluster gratuito, libere o acesso de rede e copie a string de conexão.
-2. **API — Render:** *New → Blueprint* apontando para este repositório (usa o [`render.yaml`](render.yaml)). Preencha `MONGO_URI` e `CLIENT_URL` (endereço do frontend na Vercel); o `JWT_SECRET` é gerado automaticamente. Depois rode `npm run seed` uma vez pelo *Shell* do Render.
-3. **Frontend — Vercel:** importe o repositório com *Root Directory* = `client` (framework Vite) e defina `VITE_API_URL=https://<sua-api>.onrender.com/api`.
+O sistema está publicado:
+
+| Parte    | Serviço       | Endereço                                                                 |
+|----------|---------------|--------------------------------------------------------------------------|
+| Frontend | Vercel        | https://labagendaufrr.vercel.app                                         |
+| API      | Render        | https://labagenda-api.onrender.com/api (saúde: [`/api/health`](https://labagenda-api.onrender.com/api/health)) |
+| Banco    | MongoDB Atlas | cluster gratuito (M0)                                                    |
+
+> ⏳ A API usa o plano gratuito do Render, que hiberna após ~15 min sem uso. O primeiro acesso depois disso pode levar cerca de 50 segundos.
+
+Para publicar uma cópia:
+
+1. **Banco — MongoDB Atlas:** crie um cluster gratuito, libere o acesso de rede (`0.0.0.0/0`) e copie a string de conexão, incluindo o nome do banco (`.../labagenda`).
+2. **API — Render:** *New → Blueprint* apontando para este repositório (usa o [`render.yaml`](render.yaml), já no plano gratuito). Preencha `MONGO_URI` e `CLIENT_URL` (endereço do frontend na Vercel, sem barra no final); o `JWT_SECRET` é gerado automaticamente.
+3. **Frontend — Vercel:** importe o repositório como projeto único com *Root Directory* = `client` (framework Vite) e defina `VITE_API_URL=https://<sua-api>.onrender.com/api`.
+4. **Dados iniciais:** rode o seed uma vez apontando para o Atlas, a partir da pasta `server`: `MONGO_URI="<string do Atlas>" npm run seed`.
 
 ## ✅ Requisitos do trabalho
 
@@ -309,7 +324,7 @@ Exemplos prontos de requisições em [`server/requests.http`](server/requests.ht
 | Pastas `/server` e `/client` + README com instruções         | este repositório                                                        |
 | **Bônus:** WebSockets                                        | Socket.io (`server/src/socket.js`, `client/src/contexts/SocketContext.jsx`) |
 | **Bônus:** testes com Jest                                   | `server/tests/` (22 testes)                                             |
-| **Bônus:** deploy                                            | configuração pronta (`render.yaml`, `client/vercel.json`)               |
+| **Bônus:** deploy                                            | no ar: [Vercel](https://labagendaufrr.vercel.app) + [Render](https://labagenda-api.onrender.com/api/health) + MongoDB Atlas |
 
 ---
 
