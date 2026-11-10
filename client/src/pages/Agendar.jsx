@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import api from '../services/api';
+import { useEventoSocket } from '../contexts/SocketContext';
 import useCarregar from '../hooks/useCarregar';
 import Alerta from '../components/Alerta';
 import Campo from '../components/Campo';
@@ -54,6 +55,24 @@ export default function Agendar() {
 
   // Na edição, o próprio agendamento não conta como ocupado
   const ocupados = (disponibilidade.dados?.ocupados || []).filter((o) => o._id !== id);
+
+  // Tempo real: se alguém agendar/cancelar neste laboratório e dia, a grade se atualiza sozinha
+  const [aviso, setAviso] = useState('');
+  useEventoSocket('agendamento:alterado', (evento) => {
+    if (evento.laboratorio === laboratorio && evento.data === data && !enviando) {
+      disponibilidade.recarregar({ silencioso: true });
+    }
+  });
+
+  // Se o horário selecionado acabou de ser ocupado por outra pessoa, desfaz a seleção
+  useEffect(() => {
+    if (selecao.inicio === null) return;
+    const conflito = ocupados.some((o) => selecao.inicio < o.horaFim && selecao.fim > o.horaInicio);
+    if (conflito) {
+      setSelecao(SEM_SELECAO);
+      setAviso('O horário que você selecionou acabou de ser reservado por outra pessoa. Escolha outro.');
+    }
+  }, [disponibilidade.dados]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const trocarLaboratorio = (valor) => {
     setLaboratorio(valor);
@@ -142,6 +161,9 @@ export default function Agendar() {
         <div className="agendar__coluna">
           <div className="cartao">
             <span className="rotulo">3. Horários {lab && `· ${formatarData(data)}`}</span>
+            <Alerta tipo="info" aoFechar={() => setAviso('')}>
+              {aviso}
+            </Alerta>
 
             {!laboratorio && <p className="vazio">Selecione um laboratório para ver os horários.</p>}
             {laboratorio && disponibilidade.carregando && <Spinner texto="Buscando horários..." />}

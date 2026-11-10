@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import api from '../../services/api';
+import { useEventoSocket } from '../../contexts/SocketContext';
 import useCarregar from '../../hooks/useCarregar';
 import useAcoesAgendamento from '../../hooks/useAcoesAgendamento';
 import Alerta from '../../components/Alerta';
@@ -23,6 +24,9 @@ export default function AdminAgendamentos() {
     { inicial: [] }
   );
   const acoes = useAcoesAgendamento(() => recarregar({ silencioso: true }));
+
+  // Tempo real: recarrega a lista quando algum agendamento muda
+  useEventoSocket('agendamento:alterado', () => recarregar({ silencioso: true }));
 
   const alterar = (e) => setFiltros({ ...filtros, [e.target.name]: e.target.value });
 

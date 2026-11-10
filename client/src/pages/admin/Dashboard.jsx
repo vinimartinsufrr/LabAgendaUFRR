@@ -1,5 +1,6 @@
 import api from '../../services/api';
 import useCarregar from '../../hooks/useCarregar';
+import { useEventoSocket } from '../../contexts/SocketContext';
 import Alerta from '../../components/Alerta';
 import Spinner from '../../components/Spinner';
 import { DIAS_SEMANA, deISO, formatarData } from '../../utils/datas';
@@ -38,7 +39,10 @@ function GraficoProximosDias({ dias }) {
 }
 
 export default function Dashboard() {
-  const { dados, carregando, erro } = useCarregar(() => api.get('/dashboard').then((r) => r.data));
+  const { dados, carregando, erro, recarregar } = useCarregar(() => api.get('/dashboard').then((r) => r.data));
+
+  // Tempo real: os indicadores se atualizam a cada agendamento criado/cancelado
+  useEventoSocket('agendamento:alterado', () => recarregar({ silencioso: true }));
 
   if (carregando) return <Spinner texto="Carregando indicadores..." />;
   if (erro) return <Alerta>{erro}</Alerta>;

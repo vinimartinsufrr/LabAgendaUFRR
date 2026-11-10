@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
+import { useEventoSocket } from '../contexts/SocketContext';
 import useCarregar from '../hooks/useCarregar';
 import useAcoesAgendamento from '../hooks/useAcoesAgendamento';
 import Alerta from '../components/Alerta';
@@ -28,6 +29,9 @@ export default function MeusAgendamentos() {
     { inicial: [] }
   );
   const acoes = useAcoesAgendamento(() => recarregar({ silencioso: true }));
+
+  // Tempo real: recarrega a lista quando algum agendamento muda
+  useEventoSocket('agendamento:alterado', () => recarregar({ silencioso: true }));
 
   return (
     <>
