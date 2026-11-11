@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Alerta from '../components/Alerta';
 import Campo from '../components/Campo';
+import PainelAuth from '../components/PainelAuth';
 import Spinner from '../components/Spinner';
 import { mensagemDeErro } from '../utils/erros';
 
@@ -33,10 +34,10 @@ export default function Login() {
 
   return (
     <div className="auth">
-      <div className="auth__lado">
-        <h1>LabAgenda UFRR</h1>
-        <p>Reserve laboratórios da universidade em poucos cliques, sem conflito de horário.</p>
-      </div>
+      <PainelAuth
+        titulo="Reserve laboratórios em poucos cliques"
+        texto="O sistema de agendamento de laboratórios da Universidade Federal de Roraima."
+      />
 
       <form className="auth__cartao cartao" onSubmit={enviar} noValidate>
         <h2>Entrar</h2>

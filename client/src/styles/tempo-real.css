@@ -15,19 +15,19 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #9aa5b1;
+  background: var(--cor-texto-desativado);
 }
 .ao-vivo--on {
   color: var(--cor-sucesso);
 }
 .ao-vivo--on::before {
-  background: var(--cor-sucesso);
+  background: #16a34a;
   animation: pulsar 1.6s ease-in-out infinite;
 }
 
 @keyframes pulsar {
   50% {
-    box-shadow: 0 0 0 4px rgba(25, 135, 84, 0.2);
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2);
   }
 }
 

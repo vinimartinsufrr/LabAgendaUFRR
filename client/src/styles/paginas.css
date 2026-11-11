@@ -24,8 +24,12 @@
 }
 
 .botao--texto-perigo {
-  color: var(--cor-perigo);
-  border-color: #f1aeb5;
+  color: var(--cor-perigo-texto);
+  border-color: var(--cor-perigo-borda);
+}
+.botao--texto-perigo:hover:not(:disabled) {
+  color: var(--cor-perigo-texto);
+  border-color: var(--cor-perigo-borda);
 }
 .botao--texto-perigo:hover:not(:disabled) {
   background: var(--cor-perigo-clara);
@@ -41,17 +45,29 @@
 .filtros input,
 .filtros select {
   flex: 1 1 200px;
+  min-height: 42px;
   padding: 0.55rem 0.75rem;
-  border: 1px solid var(--cor-borda);
-  border-radius: 8px;
+  border: 1px solid var(--cor-borda-forte);
+  border-radius: var(--raio-pequeno);
   font: inherit;
+  color: inherit;
   background: var(--cor-superficie);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.filtros input:focus,
+.filtros select:focus {
+  outline: none;
+  border-color: var(--cor-primaria);
+  box-shadow: var(--anel-foco);
 }
 
 /* ---------- Cartões de laboratório ---------- */
 .cartao--lab {
   display: flex;
   flex-direction: column;
+}
+.cartao--lab h3 {
+  margin-bottom: 0.15rem;
 }
 .cartao--inativo {
   opacity: 0.7;
@@ -64,8 +80,11 @@
   padding-top: 1rem;
 }
 .cartao--destaque {
-  border-color: #f3d19c;
-  background: #fffaf0;
+  border-color: var(--cor-aviso-borda);
+  background: var(--cor-aviso-clara);
+}
+.cartao--destaque:hover {
+  border-color: var(--cor-aviso-borda);
 }
 
 /* ---------- Formulários de página ---------- */
@@ -104,7 +123,7 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  background: rgba(15, 23, 42, 0.45);
+  background: rgba(23, 33, 43, 0.5);
   animation: aparecer 0.15s ease-out;
 }
 .modal__caixa {
@@ -161,7 +180,8 @@
   flex-direction: column;
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
-  border-radius: 8px;
+  border-radius: var(--raio-pequeno);
+  border-left: 4px solid var(--cor-primaria);
   background: var(--cor-primaria-clara);
   color: var(--cor-primaria-escura);
 }
@@ -176,11 +196,16 @@
 .calendario__nav {
   width: 34px;
   height: 34px;
-  border: 1px solid var(--cor-borda);
-  border-radius: 8px;
+  border: 1px solid var(--cor-borda-forte);
+  border-radius: var(--raio-pequeno);
   background: var(--cor-superficie);
+  color: var(--cor-texto);
   font-size: 1.2rem;
   cursor: pointer;
+  transition: background 0.15s;
+}
+.calendario__nav:hover:not(:disabled) {
+  background: var(--cor-fundo);
 }
 .calendario__nav:disabled {
   opacity: 0.35;
@@ -193,39 +218,49 @@
 }
 .calendario__semana {
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--cor-texto-suave);
   padding: 0.25rem 0;
 }
 .calendario__dia {
   aspect-ratio: 1;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: var(--raio-pequeno);
   background: var(--cor-fundo);
+  color: var(--cor-texto);
   font: inherit;
+  font-variant-numeric: tabular-nums;
   cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
 }
 .calendario__dia:hover:not(:disabled) {
   border-color: var(--cor-primaria);
+  background: var(--cor-primaria-clara);
 }
 .calendario__dia:disabled {
   background: none;
-  color: #b8c0c9;
+  color: var(--cor-texto-desativado);
   cursor: not-allowed;
 }
 .calendario__dia--hoje {
   font-weight: 700;
-  border-color: var(--cor-borda);
+  color: var(--cor-primaria-escura);
+  border-color: var(--cor-primaria-borda);
 }
 .calendario__dia--selecionado,
 .calendario__dia--selecionado:hover:not(:disabled) {
   background: var(--cor-primaria);
   border-color: var(--cor-primaria);
   color: #fff;
+  font-weight: 600;
 }
 
-/* Grade de horários */
+/* Grade de horários
+   Livre = branco (convida ao clique) · Selecionado = cor principal
+   Ocupado = listrado em vermelho claro · Seu = âmbar · Encerrado = cinza */
 .horarios {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
@@ -235,49 +270,65 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.55rem 0.25rem;
-  border: 1px solid #b7dfc8;
-  border-radius: 8px;
-  background: var(--cor-sucesso-clara);
-  color: #0f5132;
+  padding: 0.6rem 0.25rem;
+  border: 1px solid var(--cor-borda-forte);
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
   font: inherit;
+  font-variant-numeric: tabular-nums;
   cursor: pointer;
-  transition: transform 0.1s;
+  transition: transform 0.1s, border-color 0.15s, background 0.15s;
 }
 .horario small {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
+  color: var(--cor-texto-suave);
 }
 .horario:hover:not(:disabled) {
   transform: translateY(-1px);
-  border-color: var(--cor-sucesso);
+  border-color: var(--cor-primaria);
+  background: var(--cor-primaria-clara);
 }
-.horario--selecionado {
+.horario--selecionado,
+.horario--selecionado:hover:not(:disabled) {
   background: var(--cor-primaria);
   border-color: var(--cor-primaria);
   color: #fff;
 }
-.horario--selecionado:hover:not(:disabled) {
-  border-color: var(--cor-primaria-escura);
+.horario--selecionado small {
+  color: rgba(255, 255, 255, 0.85);
 }
 .horario--ocupado {
-  background: var(--cor-perigo-clara);
-  border-color: #f1aeb5;
-  color: #842029;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--cor-perigo-clara) 0 6px,
+    #fbe3e2 6px 12px
+  );
+  border-color: var(--cor-perigo-borda);
+  color: var(--cor-perigo-texto);
   cursor: not-allowed;
+}
+.horario--ocupado strong {
   text-decoration: line-through;
 }
+.horario--ocupado small {
+  color: var(--cor-perigo-texto);
+}
 .horario--meu {
-  background: #fff4e0;
-  border-color: #f3d19c;
+  background: var(--cor-aviso-clara);
+  border-color: var(--cor-aviso-borda);
   color: var(--cor-aviso);
   cursor: not-allowed;
 }
+.horario--meu small {
+  color: var(--cor-aviso);
+}
 .horario--passado {
-  background: #f1f3f5;
+  background: var(--cor-fundo-escuro);
   border-color: var(--cor-borda);
-  color: #9aa5b1;
+  color: var(--cor-texto-suave);
   cursor: not-allowed;
 }
 
@@ -302,10 +353,13 @@
   border-radius: 4px;
   border: 1px solid;
 }
-.horario-cor--livre { background: var(--cor-sucesso-clara); border-color: #b7dfc8; }
+.horario-cor--livre { background: var(--cor-superficie); border-color: var(--cor-borda-forte); }
 .horario-cor--selecionado { background: var(--cor-primaria); border-color: var(--cor-primaria); }
-.horario-cor--ocupado { background: var(--cor-perigo-clara); border-color: #f1aeb5; }
-.horario-cor--meu { background: #fff4e0; border-color: #f3d19c; }
+.horario-cor--ocupado {
+  background: repeating-linear-gradient(135deg, var(--cor-perigo-clara) 0 3px, #f6cfcc 3px 6px);
+  border-color: var(--cor-perigo-borda);
+}
+.horario-cor--meu { background: var(--cor-aviso-clara); border-color: var(--cor-aviso-borda); }
 
 /* ---------- Abas ---------- */
 .abas {
@@ -314,6 +368,10 @@
   border-bottom: 1px solid var(--cor-borda);
   margin-bottom: 1.25rem;
   overflow-x: auto;
+  scrollbar-width: none;
+}
+.abas::-webkit-scrollbar {
+  display: none;
 }
 .aba {
   padding: 0.6rem 1rem;
@@ -332,7 +390,7 @@
 }
 .aba--ativa,
 .abas--links .aba.active {
-  color: var(--cor-primaria);
+  color: var(--cor-primaria-escura);
   border-bottom-color: var(--cor-primaria);
 }
 
@@ -353,6 +411,10 @@
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio);
   box-shadow: var(--sombra);
+  transition: border-color 0.15s;
+}
+.agendamento:hover {
+  border-color: var(--cor-borda-forte);
 }
 .agendamento__data {
   display: flex;
@@ -361,16 +423,22 @@
   justify-content: center;
   width: 64px;
   height: 64px;
-  border-radius: 10px;
+  border-radius: var(--raio-pequeno);
+  border: 1px solid var(--cor-primaria-borda);
   background: var(--cor-primaria-clara);
   color: var(--cor-primaria-escura);
 }
 .agendamento__data strong {
   font-size: 1.5rem;
+  font-weight: 600;
   line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 .agendamento__data span {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 .agendamento__titulo {
   display: flex;
@@ -434,13 +502,18 @@
   gap: 0.15rem;
 }
 .indicador__titulo {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: var(--cor-texto-suave);
 }
 .indicador__valor {
-  font-size: 2rem;
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   line-height: 1.15;
+  font-variant-numeric: tabular-nums;
 }
 
 .grade-dashboard {
@@ -536,20 +609,28 @@
   border-bottom: 1px solid var(--cor-borda);
 }
 .tabela th {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
   color: var(--cor-texto-suave);
-  background: #f9fafb;
+  background: var(--cor-fundo);
+}
+.tabela tbody tr {
+  transition: background 0.15s;
+}
+.tabela tbody tr:hover {
+  background: var(--cor-fundo);
 }
 .tabela tr:last-child td {
   border-bottom: 0;
 }
 .tabela select {
   padding: 0.35rem 0.5rem;
-  border: 1px solid var(--cor-borda);
+  border: 1px solid var(--cor-borda-forte);
   border-radius: 6px;
   font: inherit;
+  color: inherit;
   background: var(--cor-superficie);
 }
 .tabela__acoes {
@@ -566,6 +647,10 @@
 }
 
 @media (max-width: 768px) {
+  .aba {
+    padding: 0.6rem 0.75rem;
+  }
+
   .agendamento {
     grid-template-columns: auto 1fr;
   }

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Alerta from '../components/Alerta';
 import Campo from '../components/Campo';
+import PainelAuth from '../components/PainelAuth';
 import Spinner from '../components/Spinner';
 import { errosPorCampo, mensagemDeErro } from '../utils/erros';
 
@@ -54,10 +55,10 @@ export default function Registro() {
 
   return (
     <div className="auth">
-      <div className="auth__lado">
-        <h1>Crie sua conta</h1>
-        <p>Alunos, professores e técnicos podem se cadastrar para reservar laboratórios.</p>
-      </div>
+      <PainelAuth
+        titulo="Crie sua conta"
+        texto="Alunos, professores e técnicos podem se cadastrar para reservar laboratórios."
+      />
 
       <form className="auth__cartao cartao" onSubmit={enviar} noValidate>
         <h2>Cadastro</h2>
